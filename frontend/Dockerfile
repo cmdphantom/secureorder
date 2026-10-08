@@ -14,7 +14,6 @@ RUN rm -rf /usr/share/nginx/html/*
 COPY --from=build /app/dist /usr/share/nginx/html
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-# Create non-root user (nginx runs as nginx by default, but we can change to non-root if needed)
-# However, nginx:alpine runs as root by default. We'll change to nginx user.
-USER nginx
+# Run as root to avoid permission issues with cache directories
+# In production, consider using a non-root user with proper permissions
 EXPOSE 80

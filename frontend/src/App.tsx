@@ -1,11 +1,16 @@
 import React from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import LoginPage from './pages/LoginPage'
+import OrdersPage from './pages/OrdersPage'
 
 function App() {
   return (
-    <div>
-      <h1>SecureOrder Frontend</h1>
-      <p>Frontend application for SecureOrder</p>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/" element={<OrdersPage />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

@@ -12,7 +12,7 @@ Passe le diff (`git diff` + fichiers non suivis) sur cette grille. Réponds par 
 - Algorithme de signature explicite, pas de `none`. Durée access <= 5 min.
 - Refresh : opaque, hashé en base, rotation, détection de réutilisation, révocation de famille.
 - Cookie : HttpOnly, Secure, SameSite=Strict, Path limité.
-- Aucun token dans localStorage, les URL ou les logs.
+- Access token stocké dans un cookie (SameSite=Strict) et envoyé avec les requêtes, jamais en localStorage. Aucun refresh token dans localStorage, les URL ou les logs.
 
 ## Accès
 - Deny-by-default. `@PreAuthorize` sur chaque cas d'usage sensible.

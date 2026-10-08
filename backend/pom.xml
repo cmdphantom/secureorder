@@ -39,6 +39,7 @@
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
+            <version>8.0.0</version>
         </dependency>
         <!-- Bucket4j for rate limiting -->
         <!-- <dependency>

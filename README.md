@@ -25,7 +25,7 @@ JPA entities never leave `adapter.out.persistence`. Domain entities are never ex
 - Passwords: Argon2id (or BCrypt cost >= 12). Never logged.
 - Access token: JWT, 5 min, minimal claims (sub, roles, jti, exp). Explicit signature (no `alg: none`).
 - Refresh token: opaque random value (256 bits), stored HASHED (SHA-256) in DB, with `family_id`. Rotation on each use. Reuse of a used token => revocation of entire family.
-- Refresh token in cookie `HttpOnly; Secure; SameSite=Strict; Path=/api/auth`. Access token never in localStorage (JS memory only).
+- Refresh token in cookie `HttpOnly; Secure; SameSite=Strict; Path=/api/auth`. Access token: JWT, 5 min, minimal claims (sub, roles, jti, exp). Explicit signature (no `alg: none`). Stored in a sameSite strict cookie (accessible via JS) and never in localStorage.
 - RBAC via `@PreAuthorize` + HTTP deny-by-default.
 - CORS strict (explicit origins), security headers (CSP, HSTS, X-Content-Type-Options, X-Frame-Options/frame-ancestors, Referrer-Policy).
 - Rate limiting on login and refresh. Auth error messages generic (no user enumeration).

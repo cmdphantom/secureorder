@@ -11,6 +11,7 @@ import com.secureorder.adapter.out.persistence.OrderRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -82,7 +83,7 @@ public class SecurityConfig {
 
     // Adapter beans - wiring the hexagonal architecture
     @Bean
-    public PersistenceAdapter persistenceAdapter(UserRepository userRepository, OrderRepository orderRepository, SecurityAdapter securityAdapter) {
+    public PersistenceAdapter persistenceAdapter(UserRepository userRepository, OrderRepository orderRepository, @Lazy SecurityAdapter securityAdapter) {
         return new PersistenceAdapter(userRepository, orderRepository, securityAdapter);
     }
 
