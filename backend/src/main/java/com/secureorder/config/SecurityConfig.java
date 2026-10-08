@@ -76,14 +76,14 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityAdapter securityAdapter(@Value("${JWT_SECRET}") String jwtSecret) {
-        return new SecurityAdapter(jwtSecret);
+    public SecurityAdapter securityAdapter(@Value("${JWT_SECRET}") String jwtSecret, PersistenceAdapter persistenceAdapter) {
+        return new SecurityAdapter(jwtSecret, persistenceAdapter);
     }
 
     // Adapter beans - wiring the hexagonal architecture
     @Bean
-    public PersistenceAdapter persistenceAdapter(UserRepository userRepository, OrderRepository orderRepository) {
-        return new PersistenceAdapter(userRepository, orderRepository);
+    public PersistenceAdapter persistenceAdapter(UserRepository userRepository, OrderRepository orderRepository, SecurityAdapter securityAdapter) {
+        return new PersistenceAdapter(userRepository, orderRepository, securityAdapter);
     }
 
     @Bean
@@ -95,9 +95,7 @@ public class SecurityConfig {
 
     @Bean
     public PortsOut portsOut(SecurityAdapter securityAdapter, PersistenceAdapter persistenceAdapter) {
-        // In a real implementation, we would need to combine multiple adapters
-        // For simplicity, we're returning the persistence adapter which implements both
-        // In reality, we might have a composite adapter or use separate adapters
-        return persistenceAdapter;
+        // Return a composite adapter that delegates to both persistence and security adapters
+        return new com.secureorder.adapter.out.CompositePortsOut(persistenceAdapter, securityAdapter);
     }
 }
