@@ -1,0 +1,2 @@
+Suis les règles de AGENTS.md à la racine du dépôt (architecture hexagonale, sécurité, base de données, qualité).
+Spec de référence : docs/SPEC.md. Réponds en français pour la documentation, en anglais pour le code.

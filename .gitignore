@@ -1,0 +1,74 @@
+# Java
+target/
+!**/src/main/java/
+!**/src/test/java/
+
+# Maven
+/target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+maven-timestamp.properties
+
+# Eclipse
+.project
+.classpath
+.settings/
+.factorypath
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/nbdist/
+/nbmanifest/
+/build/
+/nbattrs/
+/nbscriptlog/
+/nbactions.xml
+/nb-configuration.xml
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Docker
+docker-compose.override.yml
+.dockerignore
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build outputs
+/backend/target/
+/frontend/dist/
+/frontend/build/
+
+# Environment
+.env
+.env.*
+project-log.md
+# Misc
+.idea/
+*.iml
