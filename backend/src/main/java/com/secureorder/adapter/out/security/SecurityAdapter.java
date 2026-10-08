@@ -94,58 +94,55 @@ public class SecurityAdapter implements PortsOut {
 
     @Override
     public List<Order> findOrdersByUser(Long userId) {
-        // TODO: Implement proper order retrieval by user ID
-        // This would typically delegate to persistence adapter
-        // For now, returning empty list as placeholder
-        return java.util.Collections.emptyList();
+        // Delegate to persistence adapter
+        return persistenceAdapter.findOrdersByUser(userId);
     }
 
     @Override
     public void revokeRefreshTokenFamily(String refreshTokenId) {
-        // TODO: Implement family revocation
-        // In reality, this would mark all tokens in the family as revoked in the database
+        // Delegate to persistence adapter
+        persistenceAdapter.revokeRefreshTokenFamily(refreshTokenId);
     }
 
-    // Persistence operations (not implemented in SecurityAdapter - delegate to PersistenceAdapter in real implementation)
     @Override
     public User saveUser(User user) {
-        // TODO: Implement or delegate to PersistenceAdapter
-        return null;
+        // Delegate to persistence adapter
+        return persistenceAdapter.saveUser(user);
     }
 
     @Override
     public Optional<User> findUserById(Long id) {
-        // TODO: Implement or delegate to PersistenceAdapter
-        return Optional.empty();
+        // Delegate to persistence adapter
+        return persistenceAdapter.findUserById(id);
     }
 
     @Override
     public Optional<User> findUserByUsername(String username) {
-        // TODO: Implement or delegate to PersistenceAdapter
-        return Optional.empty();
+        // Delegate to persistence adapter
+        return persistenceAdapter.findUserByUsername(username);
     }
 
     @Override
     public List<User> findAllUsers() {
-        // TODO: Implement or delegate to PersistenceAdapter
-        return java.util.Collections.emptyList();
+        // Delegate to persistence adapter
+        return persistenceAdapter.findAllUsers();
     }
 
     @Override
     public Order saveOrder(Order order) {
-        // TODO: Implement or delegate to PersistenceAdapter
-        return null;
+        // Delegate to persistence adapter
+        return persistenceAdapter.saveOrder(order);
     }
 
     @Override
     public Optional<Order> findOrderById(Long id) {
-        // TODO: Implement or delegate to PersistenceAdapter
-        return Optional.empty();
+        // Delegate to persistence adapter
+        return persistenceAdapter.findOrderById(id);
     }
 
     @Override
     public List<Order> findPendingOrders() {
-        // TODO: Implement or delegate to PersistenceAdapter
-        return java.util.Collections.emptyList();
+        // Delegate to persistence adapter
+        return persistenceAdapter.findPendingOrders();
     }
 }

@@ -16,6 +16,11 @@ public interface PortsIn {
     User getUserByUsername(String username);
     List<User> getAllUsers();
     
+    // Authentication operations
+    String authenticate(String username, String password);
+    String refresh(String refreshToken);
+    void logout(String refreshToken);
+    
     // Order operations
     Order createOrder(String reference, double amount, String currency, 
                       String counterparty, Long createdBy);

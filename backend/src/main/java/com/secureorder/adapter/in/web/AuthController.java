@@ -50,22 +50,19 @@ public class AuthController {
             @RequestParam String username,
             @Parameter(description = "Password of the user", required = true)
             @RequestParam String password) {
-        // In a real implementation:
-        // 1. Find user by username
-        // 2. Check password using security adapter (via portsIn)
-        // 3. If valid, generate access token and refresh token
-        // 4. Set refresh token as HttpOnly cookie
-        // 5. Return access token in response body
-        
-        // Placeholder implementation
-        Map<String, Object> response = new HashMap<>();
-        response.put("accessToken", "placeholder_access_token");
-        response.put("expiresIn", 300); // 5 minutes in seconds
-        
-        // In reality, we would also set a cookie here for the refresh token
-        // response.setHeader("Set-Cookie", "refreshToken=placeholder; HttpOnly; Secure; SameSite=Strict; Path=/api/auth");
-        
-        return ResponseEntity.ok(response);
+        try {
+            String accessToken = portsIn.authenticate(username, password);
+            
+            // In a real implementation, we would also generate and set a refresh token cookie
+            // For now, we'll return the access token
+            Map<String, Object> response = new HashMap<>();
+            response.put("accessToken", accessToken);
+            response.put("expiresIn", 300); // 5 minutes in seconds
+            
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(401).body(e.getMessage());
+        }
     }
 
     @Operation(
@@ -81,23 +78,19 @@ public class AuthController {
     })
     @PostMapping("/refresh")
     public ResponseEntity<?> refresh(@CookieValue(value = "refreshToken", required = false) String refreshToken) {
-        // In a real implementation:
-        // 1. Extract refresh token from cookie
-        // 2. Validate it using security adapter (via portsIn)
-        // 3. If valid, generate new access token and refresh token (rotation)
-        // 4. Set new refresh token as HttpOnly cookie
-        // 5. Return new access token in response body
-        
-        // Placeholder implementation
-        if (refreshToken == null || refreshToken.isEmpty()) {
-            return ResponseEntity.status(401).body("Refresh token required");
+        try {
+            String newAccessToken = portsIn.refresh(refreshToken);
+            
+            // In a real implementation, we would also generate and set a new refresh token cookie here
+            // For now, we'll just return the new access token
+            Map<String, Object> response = new HashMap<>();
+            response.put("accessToken", newAccessToken);
+            response.put("expiresIn", 300); // 5 minutes in seconds
+            
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException | UnsupportedOperationException e) {
+            return ResponseEntity.status(401).body(e.getMessage());
         }
-        
-        Map<String, Object> response = new HashMap<>();
-        response.put("accessToken", "new_placeholder_access_token");
-        response.put("expiresIn", 300); // 5 minutes in seconds
-        
-        return ResponseEntity.ok(response);
     }
 
     @Operation(
@@ -111,12 +104,13 @@ public class AuthController {
     })
     @PostMapping("/logout")
     public ResponseEntity<?> logout(@CookieValue(value = "refreshToken", required = false) String refreshToken) {
-        // In a real implementation:
-        // 1. Extract refresh token from cookie
-        // 2. Revoke the refresh token family using security adapter (via portsIn)
-        // 3. Clear the cookie by setting it to expire
-        
-        // Placeholder implementation
-        return ResponseEntity.noContent().build();
+        try {
+            portsIn.logout(refreshToken);
+            // In a real implementation, we would also clear the cookie here by setting it to expire
+            // For now, we just return success
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(401).body(e.getMessage());
+        }
     }
 }

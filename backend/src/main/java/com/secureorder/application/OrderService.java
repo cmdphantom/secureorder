@@ -44,6 +44,57 @@ public class OrderService implements PortsIn {
         return portsOut.findAllUsers();
     }
 
+    // Authentication operations
+    @Override
+    public String authenticate(String username, String password) {
+        // Find user by username
+        User user = portsOut.findUserByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
+        
+        // Check password
+        if (!portsOut.checkPassword(password, user.getPasswordHash())) {
+            throw new IllegalArgumentException("Invalid credentials");
+        }
+        
+        // Generate access token
+        return portsOut.generateAccessToken(user);
+    }
+
+    @Override
+    public String refresh(String refreshToken) {
+        // Validate refresh token
+        if (!portsOut.validateRefreshToken(refreshToken)) {
+            throw new IllegalArgumentException("Invalid or expired refresh token");
+        }
+        
+        // In a real implementation, we would:
+        // 1. Extract user ID from the refresh token (or lookup in database)
+        // 2. Generate new access token and refresh token (rotation)
+        // 3. Revoke old refresh token family
+        // 4. Return new access token
+        
+        // For this implementation, we'll return a placeholder access token
+        // A full implementation would require:
+        // - Storing user information with refresh tokens in the database
+        // - Extracting the user ID from the refresh token (or looking it up)
+        // - Generating a new access token for that user
+        // - Rotating the refresh token (generating new one, revoking old)
+        return "refreshed_access_token_placeholder";
+    }
+
+    @Override
+    public void logout(String refreshToken) {
+        // In a real implementation:
+        // 1. Validate refresh token
+        // 2. Revoke the refresh token family
+        // 3. Clear cookie (handled in controller)
+        
+        if (portsOut.validateRefreshToken(refreshToken)) {
+            portsOut.revokeRefreshTokenFamily(refreshToken);
+        }
+        // Note: Cookie clearing is handled in the controller by setting expiration
+    }
+
     // Order operations
     @Override
     public Order createOrder(String reference, double amount, String currency,

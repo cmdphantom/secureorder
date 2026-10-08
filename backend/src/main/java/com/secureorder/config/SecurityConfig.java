@@ -88,9 +88,10 @@ public class SecurityConfig {
 
     @Bean
     public PortsIn portsIn(SecurityAdapter securityAdapter, PersistenceAdapter persistenceAdapter) {
-        // In a real implementation, we would inject the actual adapters
-        // For this skeleton, we're showing the dependency injection concept
-        return new com.secureorder.application.OrderService(persistenceAdapter);
+        // Return OrderService with the composite adapter that has both persistence and security capabilities
+        return new com.secureorder.application.OrderService(
+            new com.secureorder.adapter.out.CompositePortsOut(persistenceAdapter, securityAdapter)
+        );
     }
 
     @Bean
